@@ -1,0 +1,38 @@
+##general:
+ System = bulk-CrI3
+ISTART = 0    # job 0-new, 1-continue, read WAVECAR
+ICHARG = 2    # 1-file 2-atom  +10=constant CHGCAR
+GGA = PE      # XC type, PE is PBE
+IVDW = 0      # vdW correction
+LORBIT = 11
+MAXMIX = 40
+
+##Parallelization
+NPAR = 2
+KPAR = 4
+
+##electronic relaxation:
+ENCUT  =    300.
+EDIFF  = 1.0E-6
+
+#NSW=0  # number of relaxation steps
+##ionic relaxation:
+EDIFFG = -1.0E-5   # stopping criterion for IOM, neg=forces, pos=energy (bad)
+NSW  = 100         # number of steps for IOM
+IBRION = 2         # choose algorithm  -1.no ion update, 0-MD,2-Conj gradient,3-damped MD
+POTIM = 0.02       # time-step for ion motion, 0.5 recommended for IBRION=1; .02 for IBR=3
+ISIF = 3           # stress tensor: 0-no, 1-trace, 2-full, 3-shape,vol 4-shape
+
+
+##DOS related values:
+ISMEAR = -5        # 0-gaussian, 1-broad., 2-? , -4-tetrahedron, -1-fermi
+SIGMA = 0.05
+
+spin:
+ISPIN = 2               # 1=non-spin-pol; 2 = spin polarization on
+LNONCOLLINEAR = .TRUE.
+LSORBIT= .TRUE.
+SAXIS = 0 0 1
+#NBANDS = 93           #186 #NELECT + NIONS
+GGA_COMPAT = .FALSE.
+MAGMOM = 0 0 4.5  0 0 4.5  0 0 0.5  0 0 0.5  0 0 0.5  0 0 0.5  0 0 0.5  0 0 0.5  0 0 0.5  0 0 0.5   # set initial magnetic moments
