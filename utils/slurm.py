@@ -1,9 +1,9 @@
-import os, sys
 from utils import template
 
 
 
-class SlurmBatchScript(template.ConfigTemplate):
+class SlurmBatchScript(template.KVPFile):
+
     @classmethod
     def is_config(cls, line):
         line = line.strip()
@@ -25,6 +25,6 @@ class SlurmBatchScript(template.ConfigTemplate):
         line = ''.join([line, '\n'])
         return line
     @classmethod
-    def disable_line(cls, line):
+    def mute_line(cls, line):
         line = ''.join(['#', line])
         return line

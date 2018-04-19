@@ -1,5 +1,0 @@
-K-Points   ! First line comment
- 0	       ! number of kpoints; 0-automatic
-Gamma	   ! L-line mode; A-fully auto; Gamma-centered; M-MP shift.5
-11 11  1   ! number in each direction
- 0  0  0   ! shift
