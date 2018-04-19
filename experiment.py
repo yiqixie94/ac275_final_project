@@ -16,7 +16,6 @@ VASPINPUTS = ['INCAR', 'KPOINTS', 'POTCAR', 'POSCAR']
 
 
 
-
 def prepare_lattice_scan(alat_range, vac, srcdir, outdir):
     srcbatchpath = os.path.join(srcdir, BATCHFILE)
     batch_template = slurm.SlurmBatchScript.load(srcbatchpath)
