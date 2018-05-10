@@ -1,3 +1,9 @@
+'''
+VASP File templates
+Author: Yiqi Xie
+Date:   May 9, 2018
+'''
+
 from utils import template
 import numpy as np
 
@@ -38,7 +44,13 @@ class VaspINCAR(template.KVPFile):
     def make_config(cls, key, val, info):
         line = ' = '.join([key, val])
         if info != '':
-            line = '\t\t# '.join([line, info])
+            nchar = len(line)
+            if nchar > 19:
+                nspace = ((nchar+3)//4) * 4 - nchar
+            else:
+                nspace = 19 - nchar
+            line = line + ' ' * nspace
+            line = ' # '.join([line, info])
         line = ''.join([line, '\n'])
         return line
     @classmethod
@@ -81,7 +93,10 @@ class VaspKPOINTS(template.FreeFile):
 
 class VaspPOSCAR(template.FreeFile):
 
-    _default = ['header', 'scale', 'cell', 'symbols', 'numbers', 'direct', 'positions', 'dynamics']
+    _default = ['header', 
+                'scale', 'cell', 
+                'symbols', 'numbers', 
+                'direct', 'positions', 'dynamics']
     @classmethod
     def create(cls,
                symbols, numbers, cell, positions, 

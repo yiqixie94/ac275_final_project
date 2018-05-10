@@ -1,4 +1,12 @@
+'''
+File templates
+Author: Yiqi Xie
+Date:   May 9, 2018
+'''
+
+
 class DataType:
+    '''abstract data type that would be useful when parsing files'''
 
     @classmethod
     def istype(cls, val):
@@ -29,9 +37,15 @@ class DataType:
 
 
 class Parser:
+    '''read in a file and record the contents of interest,
+        is not designed for saving the whole file in memory'''
 
     def __init__(self, flines):
         self.contents = self.parse(flines)
+    def keys(self):
+        return self.contents.keys()
+    def view(self, key):
+        return self.contents[key]
     @classmethod
     def load(cls, fpath):
         with open(fpath, 'r') as file:
@@ -44,10 +58,15 @@ class Parser:
 
 
 class CreatableFile(Parser):
+    '''a file template that is not too complex that you can create from scratch,
+        saves the whole template in memory
+        intends not to record the comments'''
 
     def __init__(self, flines):
         self.flines = flines
         self.contents = self.parse(flines)
+    def __str__(self):
+        return ''.join(self.flines)
     @classmethod
     def from_scratch(cls, *args, **kwargs):
         flines = cls.create(*args, **kwargs)
@@ -62,10 +81,15 @@ class CreatableFile(Parser):
 
 
 class AlterableFile(Parser):
+    '''a file template that supports altering contents through key-value pairs,
+        saves the whole template in memory
+        intends to record the comments as well'''
 
     def __init__(self, flines):
         self.flines = flines
         self.contents = self.parse(flines)
+    def __str__(self):
+        return ''.join(self.flines)
     def alter(self, configs=None, mutes=None, **kwargs):
         raise NotImplementedError
     @classmethod
@@ -75,10 +99,13 @@ class AlterableFile(Parser):
 
 
 class FreeFile(CreatableFile, AlterableFile):
+    '''this template intends not to record the comments'''
 
     def __init__(self, flines):
         self.flines = flines
         self.contents = self.parse(flines)
+    def __str__(self):
+        return ''.join(self.flines)
     def alter(self, configs={}, mutes=[], **kwargs):
         configs_ = dict(self.contents)
         for key, val in configs.items():
@@ -99,8 +126,10 @@ class FreeFile(CreatableFile, AlterableFile):
 
 
 class KVPFile(AlterableFile):
-    '''key-value-paired file'''
+    '''a key-value-paired file template, easy to alter'''
 
+    def view(self, key):
+        return self.contents[key][1]
     def alter(self, configs={}, mutes=[], **kwargs):
         configs_ = {str(k):str(v) for k,v in configs.items()}
         mutes_ = [str(k) for k in mutes]

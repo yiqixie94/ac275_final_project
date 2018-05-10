@@ -1,0 +1,39 @@
+##general:
+System = monolayer-CrI3
+ISTART = 0          # job 0-new, 1-continue, read WAVECAR
+GGA = PE            # XC type, PE is PBE
+IVDW = 0            # vdW correction
+MAXMIX = 40
+
+
+##Parallelization
+NPAR = 2
+KPAR = 4
+
+
+##electronic relaxation:
+PREC = Accurate
+ENCUT = 450
+EDIFF = 1.0E-7
+LORBIT = 11
+LREAL = .False.
+LCHARG = .FALSE.    # 1-write CHGCAR
+LWAVE = .FALSE.     # 1-write WAVECAR
+
+
+##ionic relaxation:
+NSW = 100           # number of steps for IOM
+EDIFFG = -1.0E-6    # stopping criterion for IOM, neg=forces, pos=energy (bad)
+IBRION = 2          # choose algorithm  -1.no ion update, 0-MD,2-Conj gradient,3-damped MD
+POTIM = 0.02        # time-step for ion motion, 0.5 recommended for IBRION=1; .02 for IBR=3
+ISIF = 2            # stress tensor: 0-no, 1-trace, 2-full, 3-shape,vol 4-shape
+
+
+##DOS related values:
+ISMEAR = -5         # 0-gaussian, 1-broad., 2-? , -4-tetrahedron, -1-fermi
+SIGMA = 0.05
+
+
+##spin:
+ISPIN = 2           # 1=non-spin-pol; 2 = spin polarization on
+MAGMOM = 2*4.5  6*0.5

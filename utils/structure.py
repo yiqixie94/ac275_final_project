@@ -1,9 +1,36 @@
+'''
+Material structures
+Author: Yiqi Xie
+Date:   May 9, 2018
+'''
+
 import numpy as np
-from utils import vasp
-
-
 
 class MonoLayerCrI3:
+    '''a monolayer CrI3 structure,
+
+        INPUTS:
+            a:      float, lattice constant a, in angstrum
+            disp:   float, iodine displacement along z-axis, scaled by a,
+            vac:    float, vacuum along z-axis, in angstrum
+
+        ATTRIBUTES:
+            a:          the same as input
+            disp:       the same as input
+            vac:        the same as input
+            symbols:    str tuple, symbol of ions, order matters
+            numbers:    int tuple, number of ions, order matters
+            cell:       numpy array, basis vectors, in angstrum
+            direct:     numpy array, atom positions, in lattice coordinate
+            cartesian:  numpy array, atom positions, in cartesian coordinate
+
+        INTERFACES:
+            symbols
+            numbers
+            cell
+            direct
+            cartesian
+    '''
 
     symbols = ('Cr', 'I')
     numbers = (2, 6)
@@ -20,7 +47,7 @@ class MonoLayerCrI3:
         rz = disp * a / vac / 2
         self.direct = np.array([
             [ 0,   0,   1/2],
-            [ 1/3, 2/3, 1/2], 
+            [ 1/3, 2/3, 1/2],
             [ 1/3, 0,   1/2-rz],
             [ 0,   1/3, 1/2-rz],
             [ 1/3, 1/3, 1/2+rz],
@@ -30,22 +57,5 @@ class MonoLayerCrI3:
         ])
         self.cartesian = np.dot(self.direct, self.cell)
 
-    def write_poscar_abs(self, outpath):
-        carlines = vasp.VaspPOSCAR.create(
-                        self.symbols, self.numbers, 
-                        self.cell, self.cartesian,
-                        scale=1.0, direct=False, 
-                        header='monolayer_CrI3')
-        with open(outpath, 'w') as file:
-            file.writelines(carlines)
-        return carlines
 
-    def write_poscar_rel(self, outpath):
-        carlines = vasp.VaspPOSCAR.create(
-                        self.symbols, self.numbers, 
-                        self.cell/self.a, self.direct,
-                        scale=self.a, direct=True, 
-                        header='monolayer_CrI3')
-        with open(outpath, 'w') as file:
-            file.writelines(carlines)
-        return carlines
+        

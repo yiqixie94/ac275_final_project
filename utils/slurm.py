@@ -1,6 +1,11 @@
+'''
+Slurm File templates
+Author: Yiqi Xie
+Date:   May 9, 2018
+'''
+
+
 from utils import template
-
-
 
 class SlurmBatchScript(template.KVPFile):
 
